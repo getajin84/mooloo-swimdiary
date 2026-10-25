@@ -112,9 +112,22 @@ def main():
         return 2
     print(f"{row}번째 줄 게시 순서: {', '.join(f'EP.{n:03d}' for n in todo)}")
     if DRY:
+        # 연결 확인: 토큰·계정·게시 한도, 공개 이미지 주소 (게시는 하지 않음)
+        me = api("GET", "me", fields="user_id,username")
+        print("토큰 확인:", me.get("username"), me.get("user_id"))
+        if str(me.get("user_id")) != os.environ["IG_USER_ID"]:
+            print("  ! IG_USER_ID 시크릿과 토큰 계정 ID가 다릅니다")
+        print("게시 한도:", api("GET", f"{os.environ['IG_USER_ID']}/content_publishing_limit", fields="quota_usage,config"))
+        base = os.environ["ASSET_BASE_URL"].rstrip("/")
         for n in todo:
             d, meta = eps[n]
-            print(f"  [DRY] {d.name} · 이미지 {len(list(d.glob('*.jpg')))}장\n{meta['caption']}\n")
+            url = f"{base}/{d.name}/1.jpg"
+            try:
+                with urllib.request.urlopen(urllib.request.Request(url, method="HEAD"), timeout=30) as r:
+                    ok = f"{r.status} {r.headers.get('Content-Type')}"
+            except Exception as e:
+                ok = f"실패 {e}"
+            print(f"  [DRY] {d.name} · 이미지 {len(list(d.glob('*.jpg')))}장 · 공개주소 {ok}\n{meta['caption']}\n")
         return 0
     base = os.environ["ASSET_BASE_URL"].rstrip("/")
     limit = api("GET", f"{os.environ['IG_USER_ID']}/content_publishing_limit", fields="quota_usage,config")
