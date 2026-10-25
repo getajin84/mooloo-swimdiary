@@ -1,0 +1,4 @@
+render/node_modules/
+render/out/
+__pycache__/
+*.pyc

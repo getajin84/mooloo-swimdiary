@@ -1,0 +1,17 @@
+name: 인스타 토큰 갱신
+
+on:
+  schedule:
+    - cron: "11 1 1,15 * *"   # 매월 1일·15일 (토큰 유효기간 60일)
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_REPO: ${{ github.repository }}
+        run: python publish/refresh_token.py
