@@ -26,7 +26,7 @@ const EPS = [
       bg('#F4F1FB') + poolDoor() + person('mulu', { x: 245, y: 290, s: .86, outfit: 'casual', arms: 'down', expr: 'cry', prop: `<g filter="url(#pencil)">${PROPS.swimBag(-70, 120, .5)}</g>` }) + sfx(90, 490, '털썩', { size: 40, rot: -8, color: '#8A8098' }) +
       bubble(260, 440, 210, 70, '정기 휴관…?', { tail: 'none', size: 32 }),
       bg('#FFF6E6') + calendar(360, 150, 1.1) + person('mulu', { x: 150, y: 170, s: .72, outfit: 'casual', arms: 'point', expr: 'determined' }) +
-      tipBox(338, '물루 TIP · 휴관일 미리 확인', '공공 수영장은 보통 월 1~2회 정기 휴관이 있어요.\n명절·수질 청소 기간에도 쉬니 출발 전 확인!\n물루 앱 수영장 탭에서 휴관 일정을 볼 수 있어요.'),
+      tipBox(338, '물루 TIP · 휴관일 미리 확인', '공공 수영장은 보통 월 1~2회 정기 휴관이 있어요.\n명절·수질 청소 기간에도 쉬니 출발 전 확인!\n물루 앱 탐색 탭에서 근처 다른 수영장도 알아 두기!'),
     ] },
 
   // ════ EP.014 귀에 물

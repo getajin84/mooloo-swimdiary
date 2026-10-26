@@ -44,7 +44,7 @@ module.exports = [
       pool(240) + crowdHeads(230, [60, 160, 330, 430], .4) + headInWater('mulu', { x: 245, y: 230, s: .6, cap: true, gog: 'eyes', expr: 'flat' }) + waterFront(265, .85) +
       sfx(120, 380, '앞사람 발…', { size: 30, rot: -4, color: '#8A8098' }) + sfx(370, 430, '뒷사람 손…', { size: 30, rot: 4, color: '#8A8098' }) + caption('수영인지 줄서기인지'),
       pool(190) + headInWater('mulu', { x: 245, y: 168, s: .64, cap: true, gog: 'head', expr: 'smile' }) + waterFront(210, .85, 330) + sparkle(110, 90, 12) +
-      tipBox(320, '물루 TIP · 붐비는 시간 피하기', '퇴근 직후(저녁 7~8시)는 대부분 수영장이 가장 붐벼요.\n조금 늦은 시간이나 주말 오후를 노려 보기.\n물루 앱에서 시간대별 혼잡도를 미리 확인!'),
+      tipBox(320, '물루 TIP · 붐비는 시간 피하기', '퇴근 직후(저녁 7~8시)는 대부분 수영장이 가장 붐벼요.\n조금 늦은 시간이나 주말 오후를 노려 보기.\n붐빌 땐 원 돌기·벽에서 비켜 주기로 다 같이 편하게!'),
     ] },
 
   // ════ EP.029 윤슬 vs 물루 50m 대결
@@ -59,7 +59,7 @@ module.exports = [
       pool(260) + headInWater('mulu', { x: 150, y: 236, s: .68, cap: true, gog: 'head', expr: 'proud' }) + headInWater('yoonseul', { x: 360, y: 240, s: .62, cap: true, capStyle: 'trend', gog: 'head', expr: 'happy' }) + waterFront(282, .85) +
       phoneTimer(380, 400, 1.1, '00:52') + bubble(20, 66, 220, 70, '52초! 신기록!', { tail: 'bl', size: 30 }) + bubble(260, 120, 210, 70, '난 사진 신기록♪', { tail: 'br', size: 24 }),
       bg('#F4FAF3') + phoneTimer(245, 170, 1.6, '00:52') + sparkle(120, 90, 14) + sparkle(380, 100, 12) +
-      tipBox(338, '물루 TIP · 기록은 남겨야 보여요', '그날그날 거리·시간을 적어 두면\n조금씩 빨라지는 게 눈에 보여요.\n물루 앱에 기록하고 내 성장 그래프 확인하기!'),
+      tipBox(338, '물루 TIP · 기록은 남겨야 보여요', '그날그날 거리·시간을 적어 두면\n조금씩 빨라지는 게 눈에 보여요.\n물루 앱에 기록하면 지난번과 비교해 줘요!'),
     ] },
 
   // ════ EP.030 아빠의 생일 선물
