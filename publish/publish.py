@@ -30,12 +30,23 @@ def api(method, path, **params):
         url += "?" + urllib.parse.urlencode(params)
     else:
         data = urllib.parse.urlencode(params).encode()
-    req = urllib.request.Request(url, data=data, method=method)
-    try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read())
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"{method} {path} → {e.code} {e.read().decode()[:400]}")
+    # media_publish는 재시도하지 않는다(중복 게시 위험) — 실패 시 publish_episode가 실제 게시 여부를 확인
+    tries = 1 if path.endswith("media_publish") else 3
+    for i in range(tries):
+        req = urllib.request.Request(url, data=data, method=method)
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            body = e.read().decode()[:400]
+            err = RuntimeError(f"{method} {path} → {e.code} {body}")
+            if e.code < 500 or i == tries - 1:
+                raise err
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+            err = RuntimeError(f"{method} {path} → 네트워크 {e}")
+            if i == tries - 1:
+                raise err
+        time.sleep(10 * (i + 1))
 
 
 def wait_ready(cid, label):
@@ -158,7 +169,14 @@ def main():
         if mid:
             print(f"  EP.{n:03d} 이미 게시돼 있음 → 기록만 갱신 ({mid})")
         else:
-            mid = publish_episode(d, meta, base)
+            try:
+                mid = publish_episode(d, meta, base)
+            except Exception as e:
+                # 실패 원인을 공개 기록(state.json)에 남겨 로그인 없이도 확인 가능하게
+                state.setdefault("log", []).append({"ep": n, "error": str(e)[:500], "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
+                save_state(state)
+                print(f"  EP.{n:03d} 실패: {e}")
+                return 1
         state["posted"].append(n)
         state.setdefault("log", []).append({"ep": n, "media_id": mid, "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
         save_state(state)
