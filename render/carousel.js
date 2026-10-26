@@ -1,4 +1,4 @@
-// 캐러셀 6장 구성: [1] 물 위 표지 · [2] 제목 · [3~6] 컷 1~4  (각 1080×1350)
+// 캐러셀 구성: [1] 물 위 표지 · [2] 제목 · [3~] 컷 (4~10컷, 각 1080×1350)
 const fs = require('fs');
 const K = require('./chars');
 const { P, LINE, DEFS, sh, path, ell, ln } = K;
@@ -36,8 +36,16 @@ function cover(ep) {
   ${char.svg}
   <clipPath id="under"><rect x="0" y="${char.waistY}" width="1080" height="${1350 - char.waistY}"/></clipPath>
   <g clip-path="url(#under)" filter="url(#waterTint)">${char.svg}</g>
-  <g clip-path="url(#under)" opacity=".5">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${200 + i * 40},${char.waistY + 30 + i * 46} q60,-16 120,0 t120,0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>`).join('')}</g>`;
+  <g clip-path="url(#under)" opacity=".5">${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${200 + i * 40},${char.waistY + 30 + i * 46} q60,-16 120,0 t120,0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>`).join('')}</g>
+  ${coverLabel(ep)}`;
   return head(inner);
+}
+
+// 표지 작은 제목 — 피드 분위기를 해치지 않게 왼쪽 아래 작게 (프로필 3:4 잘림·셀 여백 안쪽)
+function coverLabel(ep) {
+  const t = `EP.${ep.ep}  ${ep.title.replace('\n', ' ')}`;
+  return `<text x="92" y="1268" font-family="Gaegu" font-weight="700" font-size="34" fill="#1F5C6B" opacity=".35" stroke="#1F5C6B" stroke-width="6" stroke-linejoin="round">${t}</text>
+  <text x="92" y="1268" font-family="Gaegu" font-weight="700" font-size="34" fill="#fff" opacity=".92">${t}</text>`;
 }
 
 // [2] 제목 슬라이드
@@ -55,7 +63,7 @@ function titleSlide(ep) {
   return head(inner);
 }
 
-// [3~6] 컷 슬라이드 — 490×540 컷을 2배로
+// [3~] 컷 슬라이드 — 490×540 컷을 2배로
 function panelSlide(ep, i) {
   const inner = `${K.paperBg(1080, 1350)}
   <g transform="translate(50,64) scale(2)">
@@ -64,7 +72,7 @@ function panelSlide(ep, i) {
     ${pencil(`<rect width="${PW}" height="${PH}" rx="18" fill="none" stroke="${LINE}" stroke-width="3.4"/>`)}
   </g>
   <text x="56" y="1252" font-family="Gaegu" font-weight="700" font-size="40" fill="${LINE}">EP.${ep.ep}  <tspan fill="${P.purpleD}">${ep.title.replace('\n', ' ')}</tspan></text>
-  ${[0, 1, 2, 3].map(k => `<circle cx="${70 + k * 30}" cy="1298" r="${k === i ? 9 : 7}" fill="${k === i ? P.purpleD : '#D9D3E6'}"/>`).join('')}
+  ${ep.panels.map((_, k) => `<circle cx="${70 + k * 30}" cy="1298" r="${k === i ? 9 : 7}" fill="${k === i ? P.purpleD : '#D9D3E6'}"/>`).join('')}
   <image href="${logo}" x="842" y="1270" width="180" height="37"/>`;
   return head(inner);
 }

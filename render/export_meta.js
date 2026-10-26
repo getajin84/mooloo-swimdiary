@@ -2,7 +2,7 @@
 const EPS = require('./all');
 const strip = s => s.replace(/<[^>]+>/g, '').trim();
 const out = EPS.map(e => {
-  const p4 = e.panels[3];
+  const p4 = e.panels[e.panels.length - 1];  // TIP은 마지막 컷
   const texts = [...p4.matchAll(/<text[^>]*>([^<]*)<\/text>/g)].map(m => m[1]);
   const ti = texts.findIndex(t => /TIP|한마디/.test(t));
   const tipTitle = ti >= 0 ? texts[ti].replace(/^◆\s*/, '') : '';

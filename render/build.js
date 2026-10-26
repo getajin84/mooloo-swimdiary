@@ -10,7 +10,9 @@ const only = process.argv[2] ? process.argv[2].split(',') : null;
     const name = `EP${e.ep}_${e.title.replace('\n', ' ')}`;
     const dir = `${__dirname}/out/${String(e.upload).padStart(2, '0')}_${name}`;
     fs.mkdirSync(dir, { recursive: true });
-    const slides = [['1_표지', C.cover(e)], ['2_제목', C.titleSlide(e)], ...[0, 1, 2, 3].map(i => [`${i + 3}_컷${i + 1}`, C.panelSlide(e, i)])];
+    const pad = n => String(n).padStart(2, '0');
+    for (const f of fs.readdirSync(dir)) if (f.endsWith('.png')) fs.unlinkSync(`${dir}/${f}`);
+    const slides = [['01_표지', C.cover(e)], ['02_제목', C.titleSlide(e)], ...e.panels.map((_, i) => [`${pad(i + 3)}_컷${pad(i + 1)}`, C.panelSlide(e, i)])];
     for (const [n, html] of slides) {
       const tmp = require('os').tmpdir() + '/_s_' + process.pid + '.html'; fs.writeFileSync(tmp, html);
       await p.goto('file://' + tmp); await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(250);
