@@ -96,7 +96,27 @@ def publish_episode(d, meta, base):
         children.append(c)
     car = api("POST", f"{ig}/media", media_type="CAROUSEL", children=",".join(children), caption=meta["caption"])["id"]
     wait_ready(car, "carousel")
-    return api("POST", f"{ig}/media_publish", creation_id=car)["id"]
+    try:
+        return api("POST", f"{ig}/media_publish", creation_id=car)["id"]
+    except RuntimeError as e:
+        # 인스타는 게시가 실제로 됐는데도 오류를 돌려줄 때가 있다 → 확인 후 판단
+        print(f"  media_publish 오류, 실제 게시 여부 확인: {e}")
+        for _ in range(10):
+            time.sleep(15)
+            mid = find_posted(int(meta["ep"]))
+            if mid:
+                return mid
+        raise
+
+
+def find_posted(ep):
+    """최근 게시물 캡션에서 'EP.0NN'을 찾아 이미 올라간 편인지 확인 (중복 게시 방지)."""
+    tag = f"EP.{ep:03d} "
+    res = api("GET", f"{os.environ['IG_USER_ID']}/media", fields="id,caption,timestamp", limit="30")
+    for m in res.get("data", []):
+        if tag in (m.get("caption") or ""):
+            return m["id"]
+    return None
 
 
 def main():
@@ -134,7 +154,11 @@ def main():
     print("게시 한도:", limit)
     for n in todo:
         d, meta = eps[n]
-        mid = publish_episode(d, meta, base)
+        mid = find_posted(n)
+        if mid:
+            print(f"  EP.{n:03d} 이미 게시돼 있음 → 기록만 갱신 ({mid})")
+        else:
+            mid = publish_episode(d, meta, base)
         state["posted"].append(n)
         state.setdefault("log", []).append({"ep": n, "media_id": mid, "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
         save_state(state)
