@@ -197,5 +197,21 @@ def main():
     return 0
 
 
+def run():
+    """어디서 실패하든 오류 문구를 state.json에 남긴다 (로그인 없이 원인 확인용)."""
+    try:
+        return main()
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc().strip().splitlines()
+        where = next((l.strip() for l in reversed(tb) if l.strip().startswith("File")), "")
+        st = load_state()
+        st.setdefault("log", []).append({"error": f"{type(e).__name__}: {e}"[:500], "where": where[:200],
+                                         "at": now_kst().strftime("%Y-%m-%dT%H:%M:%S%z")})
+        save_state(st)
+        print("실패:", e)
+        return 1
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(run())
