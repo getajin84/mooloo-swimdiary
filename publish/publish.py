@@ -12,7 +12,13 @@
   ASSET_BASE_URL  공개 이미지 주소 앞부분 (예: https://raw.githubusercontent.com/<owner>/<repo>/main/content/queue)
   DRY_RUN=1       실제 게시 없이 무엇을 올릴지만 출력
 """
-import json, os, sys, time, pathlib, urllib.parse, urllib.request
+import json, os, sys, time, pathlib, urllib.parse, urllib.request, datetime
+
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
+
+def now_kst():
+    return datetime.datetime.now(KST)
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "content" / "queue"
@@ -135,6 +141,12 @@ def main():
     posted = set(state["posted"])
     eps = episodes()
     row, todo = next_row(eps, posted)
+    # 하루 한 줄만: 예비 실행(늦은 시간 cron)이 다음 날 분량까지 올리지 않게
+    today = now_kst().strftime("%Y-%m-%d")
+    done_today = [l for l in state.get("log", []) if l.get("media_id") and str(l.get("at", "")).startswith(today)]
+    if todo and len(todo) == 3 and done_today and not os.environ.get("FORCE_ROW"):
+        print(f"오늘({today}) 줄은 이미 게시됨 → 다음 줄은 내일. (강제로 올리려면 FORCE_ROW=1)")
+        return 0
     if row is None:
         print("올릴 줄이 없습니다 (대기열 비어 있음).")
         return 0
@@ -173,12 +185,12 @@ def main():
                 mid = publish_episode(d, meta, base)
             except Exception as e:
                 # 실패 원인을 공개 기록(state.json)에 남겨 로그인 없이도 확인 가능하게
-                state.setdefault("log", []).append({"ep": n, "error": str(e)[:500], "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
+                state.setdefault("log", []).append({"ep": n, "error": str(e)[:500], "at": now_kst().strftime("%Y-%m-%dT%H:%M:%S%z")})
                 save_state(state)
                 print(f"  EP.{n:03d} 실패: {e}")
                 return 1
         state["posted"].append(n)
-        state.setdefault("log", []).append({"ep": n, "media_id": mid, "at": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
+        state.setdefault("log", []).append({"ep": n, "media_id": mid, "at": now_kst().strftime("%Y-%m-%dT%H:%M:%S%z")})
         save_state(state)
         print(f"  EP.{n:03d} 게시 완료 → {mid}")
         time.sleep(20)  # 순서 보장용 간격

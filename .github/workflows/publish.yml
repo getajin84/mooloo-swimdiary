@@ -3,6 +3,8 @@ name: 수영일기 매일 게시
 on:
   schedule:
     - cron: "37 22 * * *"   # 매일 07:37 KST (정각 혼잡 회피)
+    - cron: "13 0 * * *"    # 예비 09:13 KST — GitHub 예약이 늦거나 빠질 때 대비 (이미 올렸으면 아무것도 안 함)
+    - cron: "43 1 * * *"    # 예비 10:43 KST
   workflow_dispatch:
     inputs:
       dry_run:
