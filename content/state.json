@@ -74,6 +74,11 @@
    "media_id": "shortcode:De-vq2PCdLC",
    "at": "2026-10-27T11:10:00+0900",
    "via": "browser"
+  },
+  {
+   "error": "RuntimeError: GET 17841452899213297/content_publishing_limit → 400 {\"error\":{\"message\":\"API access blocked.\",\"type\":\"OAuthException\",\"code\":200,\"fbtrace_id\":\"AFeLwuCGcX_kwPB0qOmqFsS\"}}",
+   "where": "File \"/home/runner/work/mooloo-swimdiary/mooloo-swimdiary/publish/publish.py\", line 50, in api",
+   "at": "2026-10-28T10:37:36+0900"
   }
  ]
 }
