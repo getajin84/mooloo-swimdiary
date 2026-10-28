@@ -14,7 +14,10 @@
   10,
   15,
   14,
-  13
+  13,
+  18,
+  17,
+  16
  ],
  "log": [
   {
@@ -79,6 +82,24 @@
    "error": "RuntimeError: GET 17841452899213297/content_publishing_limit → 400 {\"error\":{\"message\":\"API access blocked.\",\"type\":\"OAuthException\",\"code\":200,\"fbtrace_id\":\"AFeLwuCGcX_kwPB0qOmqFsS\"}}",
    "where": "File \"/home/runner/work/mooloo-swimdiary/mooloo-swimdiary/publish/publish.py\", line 50, in api",
    "at": "2026-10-28T10:37:36+0900"
+  },
+  {
+   "ep": 18,
+   "media_id": "shortcode:DfBV5xYCbCY",
+   "at": "2026-10-28T11:30:00+0900",
+   "via": "browser"
+  },
+  {
+   "ep": 17,
+   "media_id": "shortcode:DfBWEeqiZ_J",
+   "at": "2026-10-28T11:30:00+0900",
+   "via": "browser"
+  },
+  {
+   "ep": 16,
+   "media_id": "shortcode:DfBWPOqiVIA",
+   "at": "2026-10-28T11:30:00+0900",
+   "via": "browser"
   }
  ]
 }
