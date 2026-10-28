@@ -144,7 +144,7 @@ def main():
     # 하루 한 줄만: 예비 실행(늦은 시간 cron)이 다음 날 분량까지 올리지 않게
     today = now_kst().strftime("%Y-%m-%d")
     done_today = [l for l in state.get("log", []) if l.get("media_id") and str(l.get("at", "")).startswith(today)]
-    if todo and len(todo) == 3 and done_today and not os.environ.get("FORCE_ROW"):
+    if todo and len(todo) == 3 and done_today and not DRY and not os.environ.get("FORCE_ROW"):
         print(f"오늘({today}) 줄은 이미 게시됨 → 다음 줄은 내일. (강제로 올리려면 FORCE_ROW=1)")
         return 0
     if row is None:
