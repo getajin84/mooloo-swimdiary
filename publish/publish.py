@@ -102,7 +102,7 @@ def next_row(eps, posted):
 def publish_episode(d, meta, base):
     ig = os.environ["IG_USER_ID"]
     folder = urllib.parse.quote(d.name)
-    imgs = sorted(p.name for p in d.glob("*.jpg"))
+    imgs = sorted((p.name for p in d.glob("*.jpg")), key=lambda n: int(n.split(".")[0]))  # 10.jpg가 2.jpg 앞에 오지 않게
     if not 2 <= len(imgs) <= 20:
         raise RuntimeError(f"{d.name}: 이미지 {len(imgs)}장 (2~20장 필요)")
     children = []
