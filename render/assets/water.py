@@ -42,7 +42,9 @@ import os
 os.makedirs(__import__('os').path.join(__import__('os').path.dirname(__file__),'strips'),exist_ok=True)
 for i,(off,hf) in enumerate([(120,False),(480,False),(300,False),(600,False),(200,False),(560,False),(40,False),(380,False),(660,False),(260,False),(520,False),
     # day12~18 (EP034~054): 위 줄(새 날) 아래끝이 아래 줄 위끝과 이어지도록 76px 간격 — 좌우 뒤집기 없음
-    (596,False),(672,False),(748,False),(824,False),(900,False),(976,False),(1052,False)]):
+    (596,False),(672,False),(748,False),(824,False),(900,False),(976,False),(1052,False),
+    # day19~25 (EP055~075): 같은 76px 간격으로 이어 붙임 — 좌우 뒤집기 없음
+    (1128,False),(1204,False),(1280,False),(1356,False),(1432,False),(1508,False),(1584,False)]):
     dst=__import__('os').path.join(__import__('os').path.dirname(__file__),f'strips/day{i+1}.png')
     if os.path.exists(dst): continue   # 이미 게시한 줄의 띠는 그대로 둔다
     s=strip(off,hf)
