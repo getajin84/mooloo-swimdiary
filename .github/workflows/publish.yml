@@ -2,7 +2,8 @@ name: 수영일기 매일 게시
 
 on:
   schedule:
-    - cron: "0 23 * * *"    # 매일 08:00 KST 게시 시작
+    # 주 실행: Claude 예약 작업이 매일 08:00 KST에 workflow_dispatch로 바로 실행시킴 (GitHub 예약은 2~7시간씩 밀림)
+    - cron: "17 23 * * *"   # 백업 08:17 KST — 정각은 혼잡이 심해 피함 (이미 올렸으면 아무것도 안 함)
     - cron: "13 0 * * *"    # 예비 09:13 KST — GitHub 예약이 늦거나 빠질 때 대비 (이미 올렸으면 아무것도 안 함)
     - cron: "43 1 * * *"    # 예비 10:43 KST
   workflow_dispatch:
@@ -21,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main   # 대기 중 다른 실행이 state.json을 갱신했어도 최신본 기준으로 판단
       - name: 다음 줄(3편) 게시
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
