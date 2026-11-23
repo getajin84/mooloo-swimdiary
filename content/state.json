@@ -92,7 +92,10 @@
   88,
   93,
   92,
-  91
+  91,
+  96,
+  95,
+  94
  ],
  "log": [
   {
@@ -555,6 +558,21 @@
    "ep": 96,
    "error": "POST 17841452899213297/media → 400 {\"error\":{\"message\":\"Timeout\",\"type\":\"OAuthException\",\"code\":-2,\"error_subcode\":2207003,\"is_transient\":false,\"error_user_title\":\"Timeout\",\"error_user_msg\":\"It takes too long to download the media.\",\"fbtrace_id\":\"AzqDAZlgBMqMDWA_ZPi60n3\"}}",
    "at": "2026-11-23T08:00:20+0900"
+  },
+  {
+   "ep": 96,
+   "media_id": "17923015902246167",
+   "at": "2026-11-23T12:44:01+0900"
+  },
+  {
+   "ep": 95,
+   "media_id": "18110568106968043",
+   "at": "2026-11-23T12:46:06+0900"
+  },
+  {
+   "ep": 94,
+   "media_id": "18114631616155919",
+   "at": "2026-11-23T12:48:05+0900"
   }
  ]
 }
