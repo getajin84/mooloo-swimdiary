@@ -98,7 +98,8 @@
   94,
   99,
   98,
-  97
+  97,
+  102
  ],
  "log": [
   {
@@ -591,6 +592,16 @@
    "ep": 97,
    "media_id": "18147789502590393",
    "at": "2026-11-25T23:41:26+0900"
+  },
+  {
+   "ep": 102,
+   "media_id": "18124262816052852",
+   "at": "2026-11-26T08:01:07+0900"
+  },
+  {
+   "ep": 101,
+   "error": "POST 17841452899213297/media_publish → 400 {\"error\":{\"message\":\"Media ID is not available\",\"type\":\"OAuthException\",\"code\":9007,\"error_subcode\":2207027,\"is_transient\":false,\"error_user_title\":\"Cannot Publish\",\"error_user_msg\":\"The media is not ready for publishing, please wait for a moment\",\"fbtrace_id\":\"An8vIyIKoNKxxCe31AmMVJR\"}}",
+   "at": "2026-11-26T08:05:03+0900"
   }
  ]
 }
