@@ -48,7 +48,9 @@ for i,(off,hf) in enumerate([(120,False),(480,False),(300,False),(600,False),(20
     # day26~32 (EP076~096): 같은 76px 간격으로 이어 붙임 — 좌우 뒤집기 없음
     (1660,False),(1736,False),(1812,False),(1888,False),(1964,False),(2040,False),(2116,False),
     # day33~39 (EP097~117): 같은 76px 간격으로 이어 붙임 — 좌우 뒤집기 없음
-    (2192,False),(2268,False),(2344,False),(2420,False),(2496,False),(2572,False),(2648,False)]):
+    (2192,False),(2268,False),(2344,False),(2420,False),(2496,False),(2572,False),(2648,False),
+    # day40~46 (EP118~138): 같은 76px 간격으로 이어 붙임 — 좌우 뒤집기 없음
+    (2724,False),(2800,False),(2876,False),(2952,False),(3028,False),(3104,False),(3180,False)]):
     dst=__import__('os').path.join(__import__('os').path.dirname(__file__),f'strips/day{i+1}.png')
     if os.path.exists(dst): continue   # 이미 게시한 줄의 띠는 그대로 둔다
     s=strip(off,hf)
